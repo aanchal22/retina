@@ -17,6 +17,16 @@ import (
 // Level defines the level of monitor aggregation.
 type Level int
 
+// TCXMode controls whether TCX (TC eXpress) attachment is used for packetparser.
+type TCXMode string
+
+const (
+	// TCXModeAuto detects kernel support and uses TCX if available, falling back to TC.
+	TCXModeAuto TCXMode = "auto"
+	// TCXModeOff disables TCX and always uses traditional TC.
+	TCXModeOff TCXMode = "off"
+)
+
 const MinTelemetryInterval time.Duration = 2 * time.Minute
 
 const (
@@ -45,8 +55,8 @@ var (
 		"telemetryInterval smaller than %v is not allowed",
 		MinTelemetryInterval,
 	)
-	DefaultTelemetryInterval              = 15 * time.Minute
-	DefaultSamplingRate            uint32 = 1
+	DefaultTelemetryInterval        = 15 * time.Minute
+	DefaultSamplingRate      uint32 = 1
 )
 
 func (l *Level) UnmarshalText(text []byte) error {

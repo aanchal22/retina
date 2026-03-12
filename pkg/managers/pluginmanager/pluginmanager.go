@@ -26,6 +26,9 @@ const (
 	// In any run I haven't seen reconcile take longer than 5 seconds,
 	// and 10 seconds seems like a reasonable SLA for reconciliation to be completed
 	MAX_RECONCILE_TIME = 10 * time.Second
+
+	// plugin name used for conntrack GC check
+	pluginNamePacketparser = "packetparser"
 )
 
 var (
@@ -136,7 +139,7 @@ func (p *PluginManager) Start(ctx context.Context) error {
 	}
 
 	g, ctx := errgroup.WithContext(ctx)
-	_, isPacketParserEnabled := p.plugins["packetparser"]
+	_, isPacketParserEnabled := p.plugins[pluginNamePacketparser]
 	// run conntrack GC only if packetparser is enabled
 	if isPacketParserEnabled {
 		ct, connErr := conntrack.New()
