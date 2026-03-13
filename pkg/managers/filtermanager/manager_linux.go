@@ -1,4 +1,5 @@
 // Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 package filtermanager
@@ -38,7 +39,7 @@ type FilterManager struct {
 // Total time: 7 seconds
 // The manager locks the cache during retry.
 // Suggest to keep retry to a small number (not more than 3).
-func Init(retry int) (*FilterManager, error) {
+func Init(retry int, filterMapMaxEntries uint32) (*FilterManager, error) {
 	var err error
 	if retry < 1 {
 		return nil, errors.New("retry should be greater than 0")
@@ -55,7 +56,7 @@ func Init(retry int) (*FilterManager, error) {
 	if f.c == nil {
 		f.c = getCache()
 	}
-	f.fm, err = filter.Init()
+	f.fm, err = filter.Init(filterMapMaxEntries)
 	return f, errors.Wrapf(err, "failed to initialize filter map")
 }
 
