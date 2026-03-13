@@ -42,8 +42,12 @@ ARG APP_INSIGHTS_ID # set to enable AI telemetry
 ARG GOARCH=amd64 # default to amd64
 ARG GOOS=linux # default to linux
 ARG VERSION
+ARG CGO_ENABLED=1
+ARG GOEXPERIMENT
 ENV GOARCH=${GOARCH}
 ENV GOOS=${GOOS}
+ENV CGO_ENABLED=${CGO_ENABLED}
+ENV GOEXPERIMENT=${GOEXPERIMENT}
 RUN --mount=type=cache,target="/root/.cache/go-build" go build -v -o /go/bin/retina/captureworkload -ldflags "-X github.com/microsoft/retina/internal/buildinfo.Version="$VERSION" -X github.com/microsoft/retina/internal/buildinfo.ApplicationInsightsID="$APP_INSIGHTS_ID"" captureworkload/main.go
 
 # controller binary
@@ -52,9 +56,13 @@ ARG APP_INSIGHTS_ID # set to enable AI telemetry
 ARG GOARCH=amd64 # default to amd64
 ARG GOOS=linux # default to linux
 ARG VERSION
+ARG CGO_ENABLED=1
+ARG GOEXPERIMENT
 ENV GOARCH=${GOARCH}
 ENV GOOS=${GOOS}
-RUN --mount=type=cache,target="/root/.cache/go-build" go build -x -v -o /go/bin/retina/controller -ldflags "-X github.com/microsoft/retina/internal/buildinfo.Version="$VERSION" -X github.com/microsoft/retina/internal/buildinfo.ApplicationInsightsID="$APP_INSIGHTS_ID"" controller/main.go 
+ENV CGO_ENABLED=${CGO_ENABLED}
+ENV GOEXPERIMENT=${GOEXPERIMENT}
+RUN --mount=type=cache,target="/root/.cache/go-build" go build -v -o /go/bin/retina/controller -ldflags "-X github.com/microsoft/retina/internal/buildinfo.Version="$VERSION" -X github.com/microsoft/retina/internal/buildinfo.ApplicationInsightsID="$APP_INSIGHTS_ID"" controller/main.go
 
 # init binary
 FROM intermediate AS init-bin
@@ -62,8 +70,12 @@ ARG APP_INSIGHTS_ID # set to enable AI telemetry
 ARG GOARCH=amd64 # default to amd64
 ARG GOOS=linux # default to linux
 ARG VERSION
+ARG CGO_ENABLED=1
+ARG GOEXPERIMENT
 ENV GOARCH=${GOARCH}
 ENV GOOS=${GOOS}
+ENV CGO_ENABLED=${CGO_ENABLED}
+ENV GOEXPERIMENT=${GOEXPERIMENT}
 RUN --mount=type=cache,target="/root/.cache/go-build" go build -v -o /go/bin/retina/initretina -ldflags "-X github.com/microsoft/retina/internal/buildinfo.Version="$VERSION" -X github.com/microsoft/retina/internal/buildinfo.ApplicationInsightsID="$APP_INSIGHTS_ID"" init/retina/main_linux.go
 
 # tools image
