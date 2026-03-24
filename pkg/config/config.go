@@ -58,7 +58,7 @@ var (
 	)
 	DefaultTelemetryInterval          = 15 * time.Minute
 	DefaultSamplingRate        uint32 = 1
-	DefaultFilterMapMaxEntries uint32 = 255
+	DefaultFilterMapMaxEntries uint32 = 50000
 )
 
 func (l *Level) UnmarshalText(text []byte) error {

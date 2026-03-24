@@ -16,7 +16,7 @@ struct {
         __type(key, struct mapKey);
         __type(value, __u8);
         __uint(map_flags, BPF_F_NO_PREALLOC);
-        __uint(max_entries, 255);
+        __uint(max_entries, 50000);
 	__uint(pinning, LIBBPF_PIN_BY_NAME); // Pinned to /sys/fs/bpf.
 } retina_filter SEC(".maps");
 
